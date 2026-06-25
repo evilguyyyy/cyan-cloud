@@ -7,18 +7,45 @@ import Layout from '../layouts/Layout.astro';
 <Layout>
 
 
- <nav>
+  <nav>
 
-  <a href="/blog" class="blog">o</a>
+  <a href="/blog" class="blog">○</a>
 
-  <a href="/contact" class="contact">D</a>
+  <a href="/contact" class="contact">□</a>
 
-  <a href="/search" class="search">QQQQQQQQQ</a>
+  <a href="/search" class="search">▭</a>
 
 </nav>
 
+
 </Layout>
+
 <style> 
+
+
+nav {
+
+  position: fixed;
+
+  top: 40px;
+
+  left: calc(var(--gutter) + 10px);
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 2rem;
+
+}
+
+
+nav a {
+
+  text-decoration: none;
+  line-height: 1; 
+}
+
 .blog {
 
   color: rgb(0, 220, 169);
@@ -34,8 +61,7 @@ import Layout from '../layouts/Layout.astro';
 
   color: rgb(255, 123, 0);
 
-  font-size: 2rem;
-  margin-right: 2rem;
+  font-size: 3rem;
 
 }
 
@@ -43,7 +69,7 @@ import Layout from '../layouts/Layout.astro';
 
   color: rgb(136, 136, 136);
 
-  font-size: 2rem;
+  font-size: 3rem;
 
 }
 
