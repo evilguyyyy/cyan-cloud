@@ -9,16 +9,19 @@ import Layout from '../layouts/Layout.astro';
 
   <nav>
 
-  <a href="/log" class="log">
-    <img src="/icons/log01.svg" alt="log" />
-  </a>
-  <a href="/contact" class="contact">
-    <img src="/icons/contact01.svg" alt="contact" />
-  </a>
+    <a href="/log" class="log">
+    <img src="/icons/log04.svg" alt="log" />
+    </a>
 
-  <a href="/search" class="search">▭</a>
+    <a href="/contact" class="contact">
+    <img src="/icons/contact04.svg" alt="contact" />
+    </a>
 
-</nav>
+    <a href="/search" class="search">
+    <img src="/icons/search05.svg" alt="search" />
+    </a>
+
+  </nav>
 
 
 </Layout>
@@ -30,50 +33,30 @@ nav {
 
   position: fixed;
 
-  top: 40px;
+  top: 56px; /* or 52px, 60px—experiment */
 
   left: calc(var(--gutter) + 10px);
 
-  display: flex;
-
-  align-items: center;
-
-  gap: 2rem;
+  display: block;
 
 }
 
 
 nav a {
 
+  display: inline-block;
+
   text-decoration: none;
-  line-height: 1; 
-}
 
-.log {
-
-  color: rgb(0, 220, 169);
-
-  font-size: 3rem;
-
-
+  line-height: 1;
 
 }
 
+nav a + a {
 
-.contact {
-
-  color: rgb(255, 123, 0);
-
-  font-size: 3rem;
+  margin-left: 20px;
 
 }
 
-.search {
-
-  color: rgb(136, 136, 136);
-
-  font-size: 3rem;
-
-}
 
 </style>
