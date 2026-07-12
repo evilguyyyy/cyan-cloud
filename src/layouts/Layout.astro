@@ -1,5 +1,6 @@
 ---
 import Analytics from '@vercel/analytics/astro'
+import SpeedInsights from '@vercel/speed-insights/astro'
 ---
 <!doctype html>
 
@@ -7,6 +8,7 @@ import Analytics from '@vercel/analytics/astro'
 
 	<head>
 		<Analytics/>
+		<SpeedInsights/> 
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 
@@ -33,7 +35,13 @@ import Analytics from '@vercel/analytics/astro'
 
 	<body>
 		<a href="/" class="home">
-			<img src="/icons/power.svg" alt="home" />
+		 <picture>
+		  <source
+      		srcset="/icons/power-sign-white.svg"
+		 	media="(prefers-color-scheme: dark)"
+		  />
+		  <img src="/icons/power.svg" alt="home" />
+	     </picture>
 		</a>
 		<slot />
 	</body>
@@ -81,6 +89,34 @@ body {
 .home img {
 
   width: 32px;
+
+}
+
+:root {
+
+  --bg: #ffffff;
+
+  --text: #111111;
+
+}
+
+@media (prefers-color-scheme: dark) {
+
+  :root {
+
+    --bg: #000000;
+
+    --text: #eeeeee;
+
+  }
+
+}
+
+body {
+
+  background: var(--bg);
+
+  color: var(--text);
 
 }
 
