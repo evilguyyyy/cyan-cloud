@@ -43,6 +43,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 		  <img src="/icons/power.svg" alt="home" />
 	     </picture>
 		</a>
+
 		<slot />
 	</body>
 
@@ -54,36 +55,50 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
   --gutter: 60px;
 
+  --bg: #ffffff;
+  --text: #111111;
+  --link: #111111;
+}
+
+
+
+@media (prefers-color-scheme: dark) {
+
+  :root {
+
+    --bg: #000000;
+    --text: #eeeeee;
+    --link: #ff1d1d;
+  }
 }
 
 html,
-
 body {
 
   margin: 0;
-
   min-height: 100vh;
 
 }
 
 body {
-
   margin: 0;
-
   padding: 40px 0 0 var(--gutter);
-
   font-family: Garamond, serif;
+
+  background: var(--bg);
+  color: var(--text);
 
 }
 
+a,
+a:visited {
+  color: var(--link);
+}
+
 .home {
-
   position: fixed;
-
   top: 40px;
-
   left: 10px;
-
 }
 
 .home img {
@@ -92,32 +107,6 @@ body {
 
 }
 
-:root {
 
-  --bg: #ffffff;
-
-  --text: #111111;
-
-}
-
-@media (prefers-color-scheme: dark) {
-
-  :root {
-
-    --bg: #000000;
-
-    --text: #eeeeee;
-
-  }
-
-}
-
-body {
-
-  background: var(--bg);
-
-  color: var(--text);
-
-}
 
 </style>
