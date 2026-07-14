@@ -49,7 +49,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
 </html>
 
-<style>
+<style is:global>
 
 :root {
 
@@ -81,7 +81,8 @@ body {
 }
 
 body {
-  margin: 0;
+  
+  min-height: 100vh;
   padding: 40px 0 0 var(--gutter);
   font-family: Garamond, serif;
 
