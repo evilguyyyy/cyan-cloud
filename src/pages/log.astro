@@ -4,6 +4,28 @@ import Layout from '../layouts/Layout.astro';
 
 ---
 <Layout>
+ 
+  <article class="entry">
+
+  <img src="/images/carwash01.JPG" alt="" loading="lazy" />
+
+  <img src="/images/carwash02.JPG" alt="" loading="lazy" />
+
+  <img src="/images/carwash03.JPG" alt="" loading="lazy" />
+
+  <img src="/images/carwash04.JPG" alt="" loading="lazy" />
+
+  <img src="/images/carwash05.JPG" alt="" loading="lazy" />
+
+  <img src="/images/carwash06.JPG" alt="" loading="lazy" />
+
+  <img src="/images/carwash07.JPG" alt="" loading="lazy" />
+
+  <img src="/images/carwash08.JPG" alt="" loading="lazy" />
+
+  <p class="date">2026&nbsp;07&nbsp;17</p>
+
+</article>
 
   <article class="entry">  
     <p>
@@ -80,10 +102,34 @@ import Layout from '../layouts/Layout.astro';
 </Layout> 
 
 <style>
+  
+.entry:first-child {
+
+  margin-top: 56px;
+
+}
 
 .entry + .entry {
 
   margin-top: 6rem;
+
+}
+
+.entry img {
+
+  display: block;
+
+  width: 100%;
+
+  margin-top:1rem;
+
+  height: auto;
+
+}
+
+.entry img + img {
+
+  margin-top: 2rem;
 
 }
 

@@ -6,6 +6,7 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout>
 
+ <main>
 
   <nav>
 
@@ -23,6 +24,7 @@ import Layout from '../layouts/Layout.astro';
 
   </nav>
 
+ </main>
 
 </Layout>
 
@@ -34,8 +36,6 @@ nav {
   position: fixed;
 
   top: 56px; /* or 52px, 60px—experiment */
-
-  left: calc(var(--gutter) + 10px);
 
   display: block;
 
@@ -54,7 +54,7 @@ nav a {
 
 nav a + a {
 
-  margin-left: 20px;
+  margin-left: 24px;
 
 }
 
