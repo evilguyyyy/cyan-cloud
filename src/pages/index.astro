@@ -1,62 +1,143 @@
 ---
 
-import Layout from '../layouts/Layout.astro';
-
 ---
 
-<Layout>
+<main class="site">
 
- <main>
+  <div class="spread">
 
-  <nav>
+    <section class="page left">
 
-    <a href="/log" class="log">
-    <img src="/icons/log-clear.svg" alt="log" />
-    </a>
+      <h1>Total Decoy</h1>
 
-    <a href="/contact" class="contact">
-    <img src="/icons/contact-clear.svg" alt="contact" />
-    </a>
+      <p>
 
-    <a href="/search" class="search">
-    <img src="/icons/search-clear.svg" alt="search" />
-    </a>
+        This is where your writing will go.
 
-  </nav>
+      </p>
 
- </main>
+    </section>
 
-</Layout>
+    <section class="page right">
 
-<style> 
+      <p>
 
+        This is the other side of the spread.
 
-nav {
+      </p>
 
-  position: fixed;
+      <a href="/page-02" class="ad">
 
-  top: 56px; /* or 52px, 60px—experiment */
+        ADVERTISEMENT
 
-  display: block;
+      </a>
 
-}
+    </section>
 
+  </div>
 
-nav a {
+</main>
 
-  display: inline-block;
+<style>
 
-  text-decoration: none;
+  html,
 
-  line-height: 1;
+  body {
 
-}
+    margin: 0;
 
-nav a + a {
+    min-height: 100%;
 
-  margin-left: 24px;
+  }
 
-}
+  body {
 
+    background: linear-gradient(
+
+      135deg,
+
+      #dce9f8 0%,
+
+      #8eacd7 50%,
+
+      #536f9e 100%
+
+    );
+
+  }
+
+  .site {
+
+    min-height: 100vh;
+
+    overflow-x: auto;
+
+    overflow-y: auto;
+
+  }
+
+  .spread {
+
+    width: 1200px;
+
+    min-height: 800px;
+
+    margin: 5vh auto;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    background: #f5f3ec;
+
+  }
+
+  .page {
+
+    position: relative;
+
+    padding: 60px;
+
+    box-sizing: border-box;
+
+  }
+
+  .left {
+
+    border-right: 1px solid #ddd;
+
+  }
+
+  .right {
+
+    border-left: 1px solid #eee;
+
+  }
+
+  .ad {
+
+    display: block;
+
+    margin-top: 100px;
+
+  }
+
+  @media (max-width: 700px) {
+
+    .site {
+
+      overflow-x: auto;
+
+    }
+
+    .spread {
+
+      width: 900px;
+
+      margin: 20px;
+
+    }
+
+  }
 
 </style>
