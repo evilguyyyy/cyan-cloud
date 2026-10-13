@@ -12,13 +12,32 @@ import Layout from '../layouts/Layout.astro';
 
     What to do now? 
 
-    <a href="/here" class="here">
-    <img src="/icons/earth.svg" alt="here" />
-    </a>
+     <a href="/here" class="here">
 
+      <img src="/icons/earth.svg" alt="here" class="icon" />
+
+    </a>
 
   </h1>
 
-   
-
 </Layout>
+
+<style>
+
+  .icon {
+
+    filter: none;
+
+  }
+
+  @media (prefers-color-scheme: dark) {
+
+    .icon {
+
+      filter: invert(1);
+
+    }
+
+  }
+
+</style>
