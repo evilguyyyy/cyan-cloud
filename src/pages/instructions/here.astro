@@ -1,47 +1,261 @@
 ---
 
-import Layout from '../../layouts/Layout.astro';
-
 ---
 
-<Layout>
+<!doctype html>
 
-  <h1>
-
-    Sit down, and take a seat. You will be waiting for the music to go away, people will look at you is acknowledgement that you both don't know what's going on.
-
-    <a href="/instructions/connect" class="connect">
-
-      <img src="/icons/connect.svg" alt="connect" class="icon" />
-
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <title>Instructions</title>
+  </head>
+  <body>
+    <main class="page">
+      <section class="display" aria-label="SIT DOWN, AND TAKE A SEAT">
+        <div class="led-window">
+          <div class="led-matrix" aria-hidden="true"></div>
+        </div>
+      </section>
+  <section class="content">
+    <p class="typing-text">
+      You will be waiting for the music to go away. People will look at
+      you. This is an acknowledgement that neither of you knows what's
+      going on.
+    </p>
+    <a href="/instructions/connect" class="continue" aria-label="Continue">
+      <img src="/icons/connect.svg" alt="" />
     </a>
-
-  </h1>
-
-   
-
-</Layout>
-
-<style>
-  
-.icon {
-
-  width: 48px;
-
-  height: auto;
-
-  filter: none;
-
-}
-
-  @media (prefers-color-scheme: dark) {
-
-    .icon {
-
-      filter: invert(1);
-
+  </section>
+</main>
+  </body>
+</html>
+<script>
+  const message = "SIT DOWN, AND TAKE A SEAT.";
+  const font: Record<string, string[]> = {
+    A: ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
+    D: ["11110", "10001", "10001", "10001", "10001", "10001", "11110"],
+    E: ["11111", "10000", "10000", "11110", "10000", "10000", "11111"],
+    I: ["11111", "00100", "00100", "00100", "00100", "00100", "11111"],
+    K: ["10001", "10010", "10100", "11000", "10100", "10010", "10001"],
+    N: ["10001", "11001", "11001", "10101", "10011", "10011", "10001"],
+    O: ["01110", "10001", "10001", "10001", "10001", "10001", "01110"],
+    S: ["01111", "10000", "10000", "01110", "00001", "00001", "11110"],
+    T: ["11111", "00100", "00100", "00100", "00100", "00100", "00100"],
+    U: ["10001", "10001", "10001", "10001", "10001", "10001", "01110"],
+    W: ["10001", "10001", "10001", "10101", "10101", "10101", "01010"],
+    ",": ["000", "000", "000", "000", "001", "010", "100"],
+    ".": ["000", "000", "000", "000", "000", "110", "110"],
+    " ": ["000", "000", "000", "000", "000", "000", "000"],
+  };
+  function renderLED() {
+    const matrix = document.querySelector<HTMLElement>(".led-matrix");
+    if (!matrix) return;
+    const rows: number[][] = Array.from({ length: 7 }, () => []);
+    for (const char of message) {
+      const glyph = font[char] || font[" "];
+      for (let row = 0; row < 7; row++) {
+        rows[row].push(...glyph[row].split("").map(Number));
+        rows[row].push(0);
+      }
     }
-
+    const cols = rows[0].length;
+    const fragment = document.createDocumentFragment();
+    matrix.replaceChildren();
+    matrix.style.setProperty("--cols", String(cols));
+    for (let row = 0; row < 7; row++) {
+      for (let col = 0; col < cols; col++) {
+        const dot = document.createElement("span");
+        dot.className = rows[row][col] ? "led on" : "led";
+        fragment.appendChild(dot);
+      }
+    }
+    matrix.appendChild(fragment);
   }
-
+  renderLED();
+</script>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: #000;
+  }
+  body {
+    color: #e9e9e6;
+    font-family: Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 28px 5vw 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  /* LED DISPLAY */
+  .display {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 18px;
+    overflow: hidden;
+    background: #100b0b;
+    border: 5px solid #302725;
+    box-shadow: inset 0 0 0 1px #090807;
+  }
+  .led-window {
+    width: 100%;
+    overflow: hidden;
+  }
+  .led-matrix {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), 8px);
+    grid-template-rows: repeat(7, 8px);
+    gap: 3px;
+    width: max-content;
+    animation: led-scroll 20s linear infinite;
+  }
+  .led {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #9f2925;
+    box-shadow: 0 0 2px rgb(180 30 25 / 25%);
+  }
+  .led.on {
+    background: #fff;
+    box-shadow:
+      0 0 4px rgb(255 255 255 / 90%),
+      0 0 8px rgb(255 255 255 / 30%);
+  }
+  @keyframes led-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+  /* CONTENT */
+  .content {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px 2px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .typing-text {
+    max-width: 620px;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.7;
+    opacity: 0;
+    animation: appear 0.6s ease-out 0.4s forwards;
+  }
+  @keyframes appear {
+    to {
+      opacity: 1;
+    }
+  }
+  /* CONTINUE */
+  .continue {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    margin-top: -8px;
+    color: inherit;
+    text-decoration: none;
+  }
+  .continue img {
+    display: block;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    filter: invert(1);
+    animation: beckon 1.2s ease-in-out infinite;
+  }
+  .continue:hover img {
+    animation-play-state: paused;
+  }
+  .continue:focus-visible {
+    outline: 1px solid #777;
+    outline-offset: 3px;
+  }
+  @keyframes beckon {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    15% {
+      transform: rotate(-12deg);
+    }
+    30% {
+      transform: rotate(12deg);
+    }
+    45% {
+      transform: rotate(-10deg);
+    }
+    60% {
+      transform: rotate(8deg);
+    }
+    75% {
+      transform: rotate(0deg);
+    }
+  }
+  /* MOBILE */
+  @media (max-width: 600px) {
+    .page {
+      padding: 20px;
+    }
+    .display {
+      padding: 10px;
+      border-width: 3px;
+    }
+    .led-matrix {
+      grid-template-columns: repeat(var(--cols), 5px);
+      grid-template-rows: repeat(7, 5px);
+      gap: 2px;
+    }
+    .led {
+      width: 5px;
+      height: 5px;
+    }
+    .content {
+      padding-top: 24px;
+      gap: 16px;
+    }
+    .typing-text {
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    .continue img {
+      width: 36px;
+      height: 36px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .led-matrix,
+    .continue img {
+      animation: none;
+    }
+    .typing-text {
+      opacity: 1;
+      animation: none;
+    }
+  }
 </style>
