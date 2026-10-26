@@ -135,7 +135,33 @@ element.style.setProperty("--cols", String(cols));
 
 renderLED();
 
+const text = document.querySelector(".typing-text");
 
+if (text) {
+
+  const message = text.textContent.trim().replace(/\s+/g, " ");
+
+  text.textContent = "";
+
+  let index = 0;
+
+  function typeNext() {
+
+    if (index < message.length) {
+
+      text!.textContent += message[index];
+
+      index++;
+
+      setTimeout(typeNext, 35);
+
+    }
+
+  }
+
+  setTimeout(typeNext, 400);
+
+}
 
 </script>
 <style>
@@ -164,6 +190,7 @@ renderLED();
   /* LED DISPLAY */
   .display {
     position: relative;
+    flex-shrink: 0;
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
@@ -290,32 +317,35 @@ renderLED();
 
 }
 
-@keyframes typing {
+.typing-text {
 
-  from {
+  flex: 1;
 
-    clip-path: inset(0 100% 0 0);
+  min-width: 0;
 
-  }
+  max-width: 620px;
 
-  to {
+  margin: 0;
 
-    clip-path: inset(0 0 0 0);
+  font-size: 15px;
 
-  }
+  font-weight: 400;
+
+  letter-spacing: -0.02em;
+
+  line-height: 1.7;
+
+  white-space: normal;
+
+  overflow-wrap: break-word;
+
+  border-right: 1px solid currentColor;
+
+  animation: cursor 0.7s step-end infinite;
 
 }
 
-@keyframes cursor {
 
-  50% {
-
-    border-color: transparent;
-
-  }
-
-}
- 
   /* CONTINUE */
  .continue {
 
