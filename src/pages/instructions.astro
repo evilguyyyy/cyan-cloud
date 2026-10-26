@@ -24,11 +24,19 @@
 
       <section class="display" aria-label="Participant instructions">
 
-        <div class="led-grid" aria-hidden="true"></div>
+  <div class="led-window">
 
-        <p class="display-text">WELCOME, PARTICIPANT.</p>
+    <div class="led-track">
 
-      </section>
+      <div class="led-matrix" aria-hidden="true"></div>
+
+      <div class="led-matrix led-copy" aria-hidden="true"></div>
+
+    </div>
+
+  </div>
+
+</section>
 
       <section class="content">
 
@@ -53,31 +61,64 @@
     </main>
 
     <script>
+  const message = "WELCOME, PARTICIPANT.";
 
-  const button = document.querySelector<HTMLAnchorElement>('.continue');
+  const font: Record<string, string[]> = {
+    W: ["10001", "10001", "10001", "10101", "10101", "10101", "01010"],
+    A: ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
+    C: ["01111", "10000", "10000", "10000", "10000", "10000", "01111"],
+    E: ["11111", "10000", "10000", "11110", "10000", "10000", "11111"],
+    I: ["11111", "00100", "00100", "00100", "00100", "00100", "11111"],
+    L: ["10000", "10000", "10000", "10000", "10000", "10000", "11111"],
+    M: ["10001", "11011", "10101", "10101", "10001", "10001", "10001"],
+    N: ["10001", "11001", "11001", "10101", "10011", "10011", "10001"],
+    O: ["01110", "10001", "10001", "10001", "10001", "10001", "01110"],
+    P: ["11110", "10001", "10001", "11110", "10000", "10000", "10000"],
+    R: ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
+    T: ["11111", "00100", "00100", "00100", "00100", "00100", "00100"],
+    " ": ["000", "000", "000", "000", "000", "000", "000"],
+    ",": ["000", "000", "000", "000", "001", "010", "100"],
+    ".": ["000", "000", "000", "000", "000", "110", "110"],
+  };
 
-  const icon = button?.querySelector('img');
+  const matrices = document.querySelectorAll<HTMLElement>(".led-matrix");
 
-  button?.addEventListener('click', (event) => {
+  const rows: number[][] = Array.from({ length: 7 }, () => []);
 
-    event.preventDefault();
+  for (const char of message) {
+    const glyph = font[char] || font[" "];
 
-    icon?.classList.remove('shake');
+    for (let row = 0; row < 7; row++) {
+      rows[row].push(...glyph[row].split("").map(Number));
+      rows[row].push(0);
+    }
+  }
 
-    // Restart the animation on every click
+  // Space between the message and its repeated copy.
+  for (let row = 0; row < 7; row++) {
+    for (let col = 0; col < 10; col++) {
+      rows[row].push(0);
+    }
+  }
 
-    void icon?.getBoundingClientRect();
+  const cols = rows[0].length;
 
-    icon?.classList.add('shake');
+  matrices.forEach((matrix) => {
+    matrix.replaceChildren();
+    matrix.style.setProperty("--cols", String(cols));
 
-    setTimeout(() => {
+    const fragment = document.createDocumentFragment();
 
-      window.location.href = button.href;
+    for (let row = 0; row < 7; row++) {
+      for (let col = 0; col < cols; col++) {
+        const dot = document.createElement("span");
+        dot.className = rows[row][col] ? "led on" : "led";
+        fragment.appendChild(dot);
+      }
+    }
 
-    }, 300);
-
+    matrix.appendChild(fragment);
   });
-
 </script>
 
   </body>
@@ -117,22 +158,21 @@
 
   .page {
 
-    position: relative;
+  position: relative;
 
-    min-height: 100vh;
+  min-height: 100vh;
 
-    min-height: 100svh;
+  min-height: 100svh;
 
-    padding: 28px 5vw 20px;
+  padding: 28px 5vw 20px;
 
-    display: flex;
+  display: flex;
 
-    flex-direction: column;
+  flex-direction: column;
 
-    justify-content: center;
+  justify-content: center;
 
-  }
-
+}
   /* LED DISPLAY */
 
   .display {
@@ -143,7 +183,9 @@
 
     max-width: 1000px;
 
-    min-height: 130px;
+    height: 130px;
+
+    flex-shrink: 0;
 
     margin: 0 auto;
 
@@ -165,60 +207,78 @@
 
       0 2px 3px rgb(0 0 0 / 10%);
 
+}
+
+  .led-window {
+
+  width: 100%;
+
+  overflow: hidden;
+
+}
+
+.led-track {
+
+  display: flex;
+
+  width: max-content;
+
+  gap: 0;
+
+  animation: led-scroll 18s linear infinite;
+
+}
+
+.led-matrix {
+
+  display: grid;
+
+  grid-template-columns: repeat(var(--cols), 8px);
+
+  grid-template-rows: repeat(7, 8px);
+
+  gap: 3px;
+
+  width: max-content;
+
+  flex-shrink: 0;
+
+}
+
+:global(.led) {
+
+  display: block;
+
+  width: 8px;
+
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: #2e332f;
+
+}
+
+:global(.led.on) {
+  background: #fff;
+  box-shadow: 0 0 4px #fff, 0 0 8px rgb(255 255 255 / 70%);
+}
+
+@keyframes led-scroll {
+
+  from {
+
+    transform: translateX(0);
+
   }
 
-  .led-grid {
+  to {
 
-    position: absolute;
-
-    inset: 8px;
-
-    background-image: radial-gradient(
-
-      circle,
-
-      rgb(180 190 181 / 22%) 1px,
-
-      transparent 1.5px
-
-    );
-
-    background-size: 6px 6px;
-
-    pointer-events: none;
+    transform: translateX(-50%);
 
   }
 
-  .display-text {
-
-    position: relative;
-
-    z-index: 1;
-
-    width: 100%;
-
-    margin: 0;
-
-    padding: 20px;
-
-    color: #91bca4;
-
-    font-family: "Courier New", monospace;
-
-    font-size: clamp(16px, 3.1vw, 34px);
-
-    font-weight: 400;
-
-    letter-spacing: 0.04em;
-
-    text-align: center;
-
-    overflow-wrap: anywhere;
-
-    text-shadow: 0 0 8px rgb(115 190 150 / 15%);
-
-  }
-
+}
   /* CONTENT */
 
   .content {
@@ -329,6 +389,7 @@
 
   @media (max-width: 600px) {
 
+    
     .page {
 
       padding: 20px;
@@ -363,6 +424,23 @@
 
       height: 28px;
 
+    }
+
+    .led-matrix {
+
+      grid-template-columns: repeat(var(--cols), 5px);
+
+      grid-template-rows: repeat(7, 5px);
+
+      gap: 2px;
+
+    }
+
+    :global(.led) {
+
+      width: 5px;
+
+      height: 5px;
     }
 
     footer {
@@ -511,5 +589,45 @@
   }
 
 }
+.typing-text {
 
+  display: inline-block;
+
+  width: 0;
+
+  margin: 0;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  border-right: 1px solid currentColor;
+
+  font-size: 15px;
+
+  font-weight: 400;
+
+  letter-spacing: -0.02em;
+
+  animation:
+
+    typing 2s steps(18, end) 0.4s forwards,
+
+    cursor 0.7s step-end infinite;
+
+}
+
+@keyframes typing {
+
+  from { width: 0; }
+
+  to { width: 18ch; }
+
+}
+
+@keyframes cursor {
+
+  50% { border-color: transparent; }
+
+}
 </style>
