@@ -23,8 +23,10 @@
       </section>
   <section class="content">
     <p class="typing-text">
-      You and your cohorts will be seated in the Dia Chelsea auditorium. Seperately, but harmioniously, you will act normally - as you have and would in any social situation.
-    </p>
+
+  <span class="typed-content"></span><span class="typing-cursor"></span>
+
+</p>
     <a href="/instructions/connect" class="continue" aria-label="Continue">
       <img src="/icons/connect.svg" alt="" />
     </a>
@@ -135,7 +137,24 @@ element.style.setProperty("--cols", String(cols));
 
 renderLED();
 
-const text = document.querySelector(".typing-text");
+const text = document.querySelector(".typed-content");
+
+if (text) {
+  const message =
+    "You and your cohorts will be seated in the Dia Chelsea auditorium. Separately, but harmoniously, you will act normally - as you have and would in any social situation.";
+
+  let index = 0;
+
+  function typeNext() {
+    if (index < message.length) {
+      text!.textContent += message[index];
+      index++;
+      setTimeout(typeNext, 35);
+    }
+  }
+
+  setTimeout(typeNext, 400);
+}
 
 if (text) {
 
@@ -179,14 +198,21 @@ if (text) {
     font-family: Arial, Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
-  .page {
-    min-height: 100vh;
-    min-height: 100svh;
-    padding: 28px 5vw 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+ .page {
+
+  min-height: 100vh;
+
+  min-height: 100svh;
+
+  padding: 28px 5vw 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+}
   /* LED DISPLAY */
   .display {
     position: relative;
@@ -285,66 +311,42 @@ if (text) {
 
 }
 
+
 .typing-text {
-
   flex: 1;
-
+  min-height: 5.1em;
   min-width: 0;
-
   max-width: 620px;
-
   margin: 0;
-
   font-size: 15px;
-
   font-weight: 400;
-
   letter-spacing: -0.02em;
-
   line-height: 1.7;
-
-  overflow: visible;
-
   white-space: normal;
-
-  border-right: 1px solid currentColor;
-
-  animation:
-
-    typing 5s steps(90, end) 0.4s both,
-
-    cursor 0.7s step-end infinite;
-
+  overflow-wrap: break-word;
 }
 
-.typing-text {
+.typing-cursor {
 
-  flex: 1;
+  display: inline;
 
-  min-width: 0;
+  border-left: 1px solid currentColor;
 
-  max-width: 620px;
-
-  margin: 0;
-
-  font-size: 15px;
-
-  font-weight: 400;
-
-  letter-spacing: -0.02em;
-
-  line-height: 1.7;
-
-  white-space: normal;
-
-  overflow-wrap: break-word;
-
-  border-right: 1px solid currentColor;
+  margin-left: 2px;
 
   animation: cursor 0.7s step-end infinite;
 
 }
 
+@keyframes cursor {
+
+  50% {
+
+    border-color: transparent;
+
+  }
+
+}
 
   /* CONTINUE */
  .continue {
@@ -436,6 +438,7 @@ if (text) {
       gap: 16px;
     }
     .typing-text {
+      min-height: 8.25em;
       font-size: 14px;
       line-height: 1.65;
     }
