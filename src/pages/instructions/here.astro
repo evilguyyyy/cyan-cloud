@@ -156,32 +156,6 @@ if (text) {
   setTimeout(typeNext, 400);
 }
 
-if (text) {
-
-  const message = text.textContent.trim().replace(/\s+/g, " ");
-
-  text.textContent = "";
-
-  let index = 0;
-
-  function typeNext() {
-
-    if (index < message.length) {
-
-      text!.textContent += message[index];
-
-      index++;
-
-      setTimeout(typeNext, 35);
-
-    }
-
-  }
-
-  setTimeout(typeNext, 400);
-
-}
-
 </script>
 <style>
   * {

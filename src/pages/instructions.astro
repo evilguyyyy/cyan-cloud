@@ -291,14 +291,13 @@
 
     margin: 0 auto;
 
-    padding: 30px 2px 0;
+    padding: 28px 2px 0;
 
     display: flex;
 
     justify-content: space-between;
 
-    align-items: center;
-
+    align-items: flex-start;
   }
 
   .content p {
@@ -333,13 +332,13 @@
 
   display: block;
 
-  width: 64px;
+  width: 48px;
 
-  height: 64px;
+  height: 48px;
 
-  min-width: 64px;
+  min-width: 48px;
 
-  min-height: 64px;
+  min-height: 48px;
 
   object-fit: contain;
 
@@ -421,16 +420,18 @@
     .content {
 
       padding-top: 24px;
+      gap: 16px;
+      min-height: 139px;
 
-    }
+  }
 
     .continue img {
 
-      width: 28px;
+      width: 48px;
 
-      height: 28px;
+      height: 48px;
 
-    }
+  }
 
     .led-matrix {
 
@@ -580,4 +581,21 @@
 
 }
 
+@media (min-width: 601px) {
+
+  .display {
+
+    transform: translateY(-4px);
+
+  }
+
+  .typing-text {
+
+    position: relative;
+
+    top: -6px;
+
+  }
+
+}
 </style>
