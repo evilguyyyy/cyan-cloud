@@ -1,17 +1,456 @@
 ---
 
-import Layout from '../../layouts/Layout.astro';
-
 ---
 
-<Layout>
+<!doctype html>
 
-  <h1>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <title>Instructions</title>
+  </head>
+  <body>
+    <main class="page">
+      <section class="display" aria-label="JUST ACT NATURAL.">
+       <div class="led-window">
+  <div class="led-track">
+    <div class="led-matrix" aria-hidden="true"></div>
+    <div class="led-matrix led-copy" aria-hidden="true"></div>
+  </div>
+</div>
+      </section>
+  <section class="content">
+    <p class="typing-text">
 
-    Hiiiiiiiiiiiiiii
+  <span class="typed-content"></span><span class="typing-cursor"></span>
 
-  </h1>
+</p>
+    <a href="/instructions/fun" class="continue" aria-label="Continue">
+      <img src="/icons/what.svg" alt="" />
+    </a>
+  </section>
+</main>
+  </body>
+</html>
+<script>
 
-   
+ const message = "JUST ACT NATURAL.";
 
-</Layout>
+ const font = {
+
+  A: ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
+
+  C: ["01110", "10001", "10000", "10000", "10000", "10001", "01110"],
+
+  D: ["11110", "10001", "10001", "10001", "10001", "10001", "11110"],
+
+  E: ["11111", "10000", "10000", "11110", "10000", "10000", "11111"],
+
+  I: ["11111", "00100", "00100", "00100", "00100", "00100", "11111"],
+
+  J: ["00111", "00010", "00010", "00010", "10010", "10010", "01100"],
+
+  K: ["10001", "10010", "10100", "11000", "10100", "10010", "10001"],
+
+  L: ["10000", "10000", "10000", "10000", "10000", "10000", "11111"],
+
+  N: ["10001", "11001", "11001", "10101", "10011", "10011", "10001"],
+
+  O: ["01110", "10001", "10001", "10001", "10001", "10001", "01110"],
+
+  R: ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
+
+  S: ["01111", "10000", "10000", "01110", "00001", "00001", "11110"],
+
+  T: ["11111", "00100", "00100", "00100", "00100", "00100", "00100"],
+
+  U: ["10001", "10001", "10001", "10001", "10001", "10001", "01110"],
+
+  W: ["10001", "10001", "10001", "10101", "10101", "10101", "01010"],
+
+  ",": ["000", "000", "000", "000", "001", "010", "100"],
+
+  ".": ["000", "000", "000", "000", "000", "110", "110"],
+
+  " ": ["000", "000", "000", "000", "000", "000", "000"],
+
+};
+
+  function renderLED() {
+
+  const matrices = document.querySelectorAll(".led-matrix");
+
+  if (!matrices.length) return;
+
+  const rows: number[][] = Array.from({ length: 7 }, () => []);
+
+ for (const char of message) {
+
+  const glyph = font[char as keyof typeof font] || font[" "];
+
+  for (let row = 0; row < 7; row++) {
+
+    rows[row].push(...glyph[row].split("").map(Number));
+
+    rows[row].push(0);
+
+  }
+
+}
+
+// Add 10 columns of unlit LEDs between repetitions
+
+for (let row = 0; row < 7; row++) {
+
+  for (let col = 0; col < 10; col++) {
+
+    rows[row].push(0);
+
+  }
+
+}
+
+  const cols = rows[0].length;
+
+  matrices.forEach((matrix) => {
+
+    matrix.replaceChildren();
+
+   const element = matrix as HTMLElement;
+element.style.setProperty("--cols", String(cols));
+
+    const fragment = document.createDocumentFragment();
+
+    for (let row = 0; row < 7; row++) {
+
+      for (let col = 0; col < cols; col++) {
+
+        const dot = document.createElement("span");
+
+        dot.className = rows[row][col] ? "led on" : "led";
+
+        fragment.appendChild(dot);
+
+      }
+
+    }
+
+    matrix.appendChild(fragment);
+
+  });
+
+}
+
+renderLED();
+
+const text = document.querySelector(".typed-content");
+
+if (text) {
+  const message =
+    "Sit, stand, talk, listen, have a drink, take a photo, do nothing. You are not responsible for explaining the event or directing other attendees. If someone asks what is happening, respond as you naturally would. There is nothing you need to maintain, demonstrate, or resolve. ";
+
+  let index = 0;
+
+  function typeNext() {
+    if (index < message.length) {
+      text!.textContent += message[index];
+      index++;
+      setTimeout(typeNext, 35);
+    }
+  }
+
+  setTimeout(typeNext, 400);
+}
+
+</script>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: #000;
+  }
+  body {
+    color: #e9e9e6;
+    font-family: Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+ .page {
+
+  min-height: 100vh;
+
+  min-height: 100svh;
+
+  padding: 28px 5vw 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+}
+  /* LED DISPLAY */
+  .display {
+    position: relative;
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 18px;
+    overflow: hidden;
+    background: #0b1018;
+    border: 5px solid #273747;
+    box-shadow: 0 0 6px rgb(88 170 255 / 45%);
+  }
+.led-window {
+
+  width: 100%;
+
+  overflow: hidden;
+
+}
+
+.led-track {
+
+  display: flex;
+
+  width: max-content;
+
+  gap: 0;
+
+  animation: led-scroll 18s linear infinite;
+
+}
+
+.led-matrix {
+
+  display: grid;
+
+  grid-template-columns: repeat(var(--cols), 8px);
+
+  grid-template-rows: repeat(7, 8px);
+
+  gap: 3px;
+
+  width: max-content;
+
+  flex-shrink: 0;
+
+}
+
+:global(.led) {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1d2b3c;
+}
+
+:global(.led.on) {
+  background: #fff;
+  box-shadow: 0 0 4px #fff, 0 0 6px rgb(88 170 255 / 45%);
+}
+@keyframes led-scroll {
+
+  from {
+
+    transform: translateX(0);
+
+  }
+
+  to {
+
+    transform: translateX(-50%);
+
+  }
+
+}
+  
+  /* CONTENT */
+  .content {
+
+  width: 100%;
+
+  max-width: 1000px;
+
+  margin: 0 auto;
+
+  padding: 24px 2px 0;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  gap: 24px;
+
+}
+
+
+.typing-text {
+  flex: 1;
+  min-height: 5.1em;
+  min-width: 0;
+  max-width: 620px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.7;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.typing-cursor {
+
+  display: inline;
+
+  border-left: 1px solid currentColor;
+
+  margin-left: 2px;
+
+  animation: cursor 0.7s step-end infinite;
+
+}
+
+@keyframes cursor {
+
+  50% {
+
+    border-color: transparent;
+
+  }
+
+}
+
+  /* CONTINUE */
+ .continue {
+
+  flex-shrink: 0;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 48px;
+
+  height: 48px;
+
+  padding: 0;
+
+  margin: 0;
+
+  color: inherit;
+
+  text-decoration: none;
+
+}
+
+.continue img {
+
+  display: block;
+
+  width: 48px;
+
+  height: 48px;
+
+  object-fit: contain;
+
+  filter: invert(1);
+
+  animation: beckon 1.2s ease-in-out infinite;
+
+}
+ @keyframes beckon {
+
+  0%, 100% {
+
+    transform: translateY(0);
+
+  }
+
+  35% {
+
+    transform: translateY(-10px);
+
+  }
+
+  50% {
+
+    transform: translateY(-12px);
+
+  }
+
+  70% {
+
+    transform: translateY(0);
+
+  }
+
+}
+  /* MOBILE */
+  @media (max-width: 600px) {
+    .page {
+      padding: 20px;
+    }
+    .display {
+      padding: 10px;
+      border-width: 3px;
+    }
+    .led-matrix {
+      grid-template-columns: repeat(var(--cols), 5px);
+      grid-template-rows: repeat(7, 5px);
+      gap: 2px;
+    }
+    :global(.led) {
+      width: 5px;
+      height: 5px;
+    }
+    .content {
+      padding-top: 24px;
+      gap: 16px;
+    }
+    .typing-text {
+      min-height: 8.25em;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+   .continue img {
+  width: 48px;
+  height: 48px;
+}
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .led-matrix,
+    .continue {
+
+  width: 36px;
+
+  height: 36px;
+
+}
+
+.continue img {
+
+  width: 36px;
+
+  height: 36px;
+
+}
+    .typing-text {
+      opacity: 1;
+      animation: none;
+    }
+  }
+
+  
+</style>
