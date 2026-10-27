@@ -40,7 +40,11 @@
 
       <section class="content">
 
-        <p class="typing-text">Thank you for joining...</p>
+        <p class="typing-text">
+
+  <span class="typed-content"></span><span class="typing-cursor"></span>
+
+</p>
 
         <a
 
@@ -119,6 +123,28 @@
 
     matrix.appendChild(fragment);
   });
+
+  // Typing animation
+  const text = document.querySelector(".typed-content");
+
+  if (text) {
+    const typingMessage =
+      "Thank you for joining and taking part in Dia: Artists on Artists Lecture Series Nandi Loaf on Agnes Martin.";
+
+    let index = 0;
+
+    function typeNext() {
+      if (index < typingMessage.length) {
+        text!.textContent += typingMessage[index];
+        index++;
+        setTimeout(typeNext, 35);
+      }
+    }
+
+    setTimeout(typeNext, 400);
+  }
+
+
 </script>
 
   </body>
@@ -471,52 +497,48 @@
   }
 
 .typing-text {
-
-  display: inline-block;
-
-  width: 0;
-
-  margin: 0;
-
-  white-space: nowrap;
-
-  overflow: hidden;
-
-  border-right: 1px solid currentColor;
-
-  font-size: 15px;
-
-  font-weight: 400;
-
-  letter-spacing: -0.02em;
-
-  animation:
-
-    typing 2s steps(18, end) 0.4s forwards,
-
-    cursor 0.7s step-end infinite;
-
+flex: 1;
+min-width: 0;
+max-width: 620px;
+min-height: 5.1em;
+margin: 0;
+font-size: 15px;
+font-weight: 400;
+letter-spacing: -0.02em;
+line-height: 1.7;
+white-space: normal;
+overflow-wrap: break-word;
 }
 
-@keyframes typing {
+.typed-content {
+white-space: inherit;
+}
 
-  from { width: 0; }
-
-  to { width: 18ch; }
-
+.typing-cursor {
+display: inline;
+border-left: 1px solid currentColor;
+margin-left: 2px;
+animation: cursor 0.7s step-end infinite;
 }
 
 @keyframes cursor {
-
-  50% { border-color: transparent; }
-
+50% {
+border-color: transparent;
 }
+}
+
+@media (max-width: 600px) {
+.typing-text {
+min-height: 8.25em;
+font-size: 14px;
+line-height: 1.65;
+}
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .typing-text {
-    width: 15ch;
-    animation: none;
-    border-right: none;
-  }
+.typing-cursor {
+animation: none;
+}
 }
 
 .continue:active img {
